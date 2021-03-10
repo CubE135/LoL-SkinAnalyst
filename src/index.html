@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>LoL SkinAnalyst</title>
+        <link rel="stylesheet" href="assets/css/ext/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/ext/fontawesome.min.css">
+        <link rel="stylesheet" href="assets/css/main.min.css">
+        <script src="assets/js/main.js" defer></script>
+        <script src="assets/js/ext/bootstrap.min.js" defer></script>
+        <script src="assets/js/ext/fontawesome.min.js" defer></script>
+    </head>
+    <body>
+        <div class="quit">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="overlay">
+            <i class="fas fa-bomb"></i>
+            <p>Seems like something exploded!</p>
+            <small>Did you start League of Legends?</small>
+            <button id="reload-page" type="button" class="btn btn-info btn-sm">Yes!</button>
+        </div>
+        <div class="container mt-3">
+            <h1 class="brand-title">LoL SkinAnalyst</h1>
+            <div id="round_stat_container" class="row mt-3">
+                <div class="col-4">
+                    <h2>Skins Owned</h2>
+                    <div id="skins_owned_stat" class="round_stat">
+                        <div class="stat_content">
+                            <span class="big_number">
+                                <i class="fas fa-spinner fa-pulse"></i>
+                            </span>
+                            <span>
+                                Not Owned:
+                                <span>
+                                    <i class="fas fa-spinner fa-pulse"></i>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <h2>Skin Shards Owned</h2>
+                    <div id="skin_shards_owned_stat" class="round_stat">
+                        <div class="stat_content">
+                            <span class="big_number">
+                                <i class="fas fa-spinner fa-pulse"></i>
+                            </span>
+                            <span>
+                                Legendary:
+                                <span>
+                                    <i class="fas fa-spinner fa-pulse"></i>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <h2>Champs Owned</h2>
+                    <div id="champs_owned_stat" class="round_stat">
+                        <div class="stat_content">
+                            <span class="big_number">
+                                <i class="fas fa-spinner fa-pulse"></i>
+                            </span>
+                            <span>
+                                Not Owned:
+                                <span>
+                                    <i class="fas fa-spinner fa-pulse"></i>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="champion_container" class="row mt-5">
+                <div class="col-12">
+                    <h2>Champions</h2>
+                    <div class="filter_container mb-3">
+                        <span id="filter_owned">Champ Owned</span>
+                        <span id="filter_unowned">Champ Not Owned</span>
+                        <span id="filter_skins_owned">Skins Owned</span>
+                        <span id="filter_skins_unowned">Skins Not Owned</span>
+                        <span id="filter_shards">Shards Owned</span>
+                    </div>
+                </div>
+                <div class="row champion_list">
+                    <div class="col-12 spinner">
+                        <i class="fas fa-spinner fa-pulse"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+<!--
+TODO:
+- Show amount of champs
+- Add filter to show:
+	- Skin Owned
+	- Skin Not Owned
+	- Skin Shards Owned
+- Allow multiple filters
+- Sorting
+...
+ -->

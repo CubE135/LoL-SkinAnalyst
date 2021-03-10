@@ -1,0 +1,75 @@
+{
+  "name": "lolskinanalyst",
+  "productName": "LoL SkinAnalyst",
+  "version": "1.0.0",
+  "description": "This App will give you detailed Information about your League Of Legends Skin Inventory.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": [],
+  "author": {
+    "name": "CubE135",
+    "email": "myaddi08@yahoo.de"
+  },
+  "license": "MIT",
+  "build": {
+    "productName": "LoL SkinAnalyst",
+    "appId": "lolskinanalyst",
+    "win": {
+      "icon": "src/assets/img/icon.ico"
+    },
+    "nsis": {
+      "installerIcon": "src/assets/img/icon.ico",
+      "uninstallerIcon": "src/assets/img/icon.ico",
+      "uninstallDisplayName": "${productName}",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "lolskinanalyst"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "jquery": "^3.5.1"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.54",
+    "@electron-forge/maker-deb": "^6.0.0-beta.54",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
+    "@electron-forge/maker-zip": "^6.0.0-beta.54",
+    "electron": "11.3.0",
+    "electron-builder": "^22.9.1"
+  }
+}

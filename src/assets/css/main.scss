@@ -1,0 +1,191 @@
+@font-face { font-family: 'Exo2'; src: url('../fonts/Exo2-Regular.ttf') format('truetype'); }
+
+body {
+    font-family: Exo2, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: #313040;
+    color: white;
+    user-select: none;
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #4e4e4e;
+        border-radius: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background-color: #2d2e33;
+    }
+}
+
+.quit {
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    padding: 0 8px;
+    line-height: 24px;
+    border-radius: 5px;
+    z-index: 1001;
+    &:hover {
+        cursor: pointer;
+        background-color: #00000029;
+    }
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #313040;
+    z-index: 1000;
+    svg {
+        font-size: 8rem;
+    }
+    p {
+        margin-top: 2rem;
+        font-size: 2rem;
+    }
+    small {
+        font-size: 1rem;
+    }
+    button {
+        margin-top: 1rem;
+        color: #333333;
+    }
+}
+
+.brand-title {
+    margin: 0;
+    text-align: center;
+    -webkit-app-region: drag;
+}
+
+#round_stat_container {
+    text-align: center;
+    h2 {
+        font-size: 20px;
+    }
+    .round_stat {
+        width: 200px;
+        height: 200px;
+        background: #3a538c;
+        border-radius: 50%;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 12px;
+        box-shadow: 0 0 10px black;
+        .stat_content {
+            span {
+                display: block;
+                &.big_number {
+                    font-size: 50px;
+                    line-height: 50px;
+                }
+            }
+        }
+    }
+}
+
+#champion_container {
+    h2 {
+        text-align: center;
+    }
+    .champion_box {
+        background-color: #728c3a;
+        height: 90px;
+        padding: 10px;
+        border-radius: 3px;
+        box-shadow: 0 0 5px black;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        img {
+            width: 40px;
+        }
+        .bottom {
+            span {
+                cursor: pointer;
+            }
+        }
+    }
+    .champion_list {
+        .spinner {
+            text-align: center;
+            font-size: 50px;
+        }
+    }
+    .filter_container {
+        display: flex;
+        justify-content: center;
+        span {
+            font-size: 13px;
+            background-color: #3a538c;
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin-right: 5px;
+            cursor: pointer;
+            &:hover {
+                background-color: #30487d;
+            }
+        }
+    }
+}
+
+/* Tooltip container */
+.ttip {
+    position: relative;
+    display: inline-block;
+
+    /* Tooltip text */
+    .ttiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+
+        /* Position the tooltip text */
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -60px;
+
+        /* Fade in tooltip */
+        opacity: 0;
+        transition: opacity 0.3s;
+
+        /* Tooltip arrow */
+        &::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+    }
+
+    /* Show the tooltip text when you mouse over the tooltip container */
+    &:hover .ttiptext {
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+
