@@ -23,33 +23,7 @@ module.exports = class DOMUtility {
     renderChampionList() {
         $('#champion_container .champion_list').empty()
         this.championList.forEach((champion) => {
-            this.lcuClient.fetchImageData(champion.img, (base64image) => {
-                let html = `
-                    <div class="col-2">
-                        <div class="champion_box">
-                            <span class="ttip">
-                                <img src="data:image/png;base64,`+base64image+`" alt="Image"/>
-                                <span class="ttiptext">`+champion.name+`</span>
-                            </span>
-                            <div class="bottom">
-                                <span class="ttip">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span class="ttiptext">Owned Skins</span>
-                                </span>
-                                <span class="ttip">
-                                    <i class="fas fa-times-circle"></i>
-                                    <span class="ttiptext">Not Owned Skins</span>
-                                </span>
-                                <span class="ttip">
-                                    <i class="fas fa-arrow-alt-circle-up"></i>
-                                    <span class="ttiptext">Skin Shards</span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                `
-                $('#champion_container .champion_list').append(html);
-            })
+            champion.render(this.lcuClient)
         })
     }
 

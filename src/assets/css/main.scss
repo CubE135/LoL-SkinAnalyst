@@ -1,3 +1,10 @@
+$color_assassin: #983752;
+$color_fighter: #af9439;
+$color_mage: #2475b9;
+$color_tank: #51409e;
+$color_marksman: #5a8a49;
+$color_support: #589eb7;
+
 @font-face { font-family: 'Exo2'; src: url('../fonts/Exo2-Regular.ttf') format('truetype'); }
 
 body {
@@ -100,7 +107,6 @@ body {
         text-align: center;
     }
     .champion_box {
-        background-color: #728c3a;
         height: 90px;
         padding: 10px;
         border-radius: 3px;
@@ -113,9 +119,39 @@ body {
         img {
             width: 40px;
         }
+        svg {
+            -webkit-filter: drop-shadow( 1px 1px 1px rgba(0, 0, 0, 0.5));
+            filter: drop-shadow( 1px 1px 1px rgba(0, 0, 0, 0.5));
+            &:hover {
+                -webkit-filter: drop-shadow( 1px 1px 1px rgba(0, 0, 0, 1));
+                filter: drop-shadow( 1px 1px 1px rgba(0, 0, 0, 1));
+            }
+        }
         .bottom {
             span {
+                padding: 0 2px;
                 cursor: pointer;
+            }
+        }
+        &[class*="role_"] {
+            background-color: red;
+            &[class*="assassin"] {
+                background-color: $color_assassin;
+            }
+            &[class*="fighter"] {
+                background-color: $color_fighter;
+            }
+            &[class*="mage"] {
+                background-color: $color_mage;
+            }
+            &[class*="tank"] {
+                background-color: $color_tank;
+            }
+            &[class*="marksman"] {
+                background-color: $color_marksman;
+            }
+            &[class*="support"] {
+                background-color: $color_support;
             }
         }
     }
