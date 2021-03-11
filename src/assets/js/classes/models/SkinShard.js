@@ -15,5 +15,6 @@ module.exports = class SkinShard {
         this.disenchantValue = shardData.disenchantValue
         this.upgradeEssenceValue = shardData.upgradeEssenceValue
         this.img = shardData.tilePath
+        this.parent = shardData.parentStoreItemId
     }
 }

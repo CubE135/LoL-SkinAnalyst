@@ -9,6 +9,16 @@ module.exports = class ChampionList {
         })
     }
 
+    attachLoot(lootList) {
+        this.champions.forEach((champion) => {
+            let shards = [];
+            lootList.skinShards.forEach((skinShard) => {
+                if (skinShard.parent === champion.id) shards.push(skinShard)
+            })
+            champion.addSkinShards(shards)
+        })
+    }
+
     getList() {
         this.sortList()
         return this.champions

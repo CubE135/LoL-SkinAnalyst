@@ -9,6 +9,7 @@ module.exports = class Champion {
     title;
     role;
     skins;
+    skinShards;
 
     element;
 
@@ -32,6 +33,10 @@ module.exports = class Champion {
         })
     }
 
+    addSkinShards(skinShards){
+        this.skinShards = skinShards
+    }
+
     render(lcuClient){
         lcuClient.fetchImageData(this.img, (base64image) => {
             this.element = $(`
@@ -45,6 +50,7 @@ module.exports = class Champion {
                     </div>
                 </div>
             `)
+            this.element.data("champion", this)
             this.addButtons()
             $('#champion_container .champion_list').append(this.element);
         })

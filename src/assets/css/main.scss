@@ -13,6 +13,7 @@ body {
     background-color: #313040;
     color: white;
     user-select: none;
+    overflow-y: scroll;
     &::-webkit-scrollbar {
         width: 5px;
     }
@@ -173,6 +174,9 @@ body {
             cursor: pointer;
             &:hover {
                 background-color: #30487d;
+            }
+            &.active {
+                background-color: #1d2331;
             }
         }
     }
