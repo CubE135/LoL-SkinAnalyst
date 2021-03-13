@@ -1,12 +1,12 @@
+const FilterUtility = require('./FilterUtility')
+
 module.exports = class DOMUtility {
-    lcuClient;
     championList;
     counter;
 
     filters;
 
-    constructor(lcuClient, championList, counter) {
-        this.lcuClient = lcuClient;
+    constructor(championList, counter) {
         this.championList = championList;
         this.counter = counter
 
@@ -33,7 +33,7 @@ module.exports = class DOMUtility {
     renderChampionList() {
         $('#champion_container .champion_list').empty()
         this.championList.forEach((champion) => {
-            champion.render(this.lcuClient)
+            champion.render()
         })
     }
 
@@ -51,11 +51,12 @@ module.exports = class DOMUtility {
     }
 
     handleFilters(){
+        let filterUtility = new FilterUtility()
         let _this = this
         $(document).on('click', '.filter_container span[id^="filter_"]', (e) => {
             _this.filters[e.target.id] = !_this.filters[e.target.id]
             _this.setFilterElementStatus(e.target.id, _this.filters[e.target.id])
-            _this.filter()
+            filterUtility.filter(this.filters)
         })
     }
 
@@ -66,51 +67,5 @@ module.exports = class DOMUtility {
         }else{
             element.removeClass('active')
         }
-    }
-
-    filter() {
-        let champions = $('.champion_list').children()
-        champions.hide()
-
-        champions.each((_, element) => {
-            let champion = $(element).data("champion")
-            let show = true
-
-            // Champion owned
-            if(this.filters["filter_owned"]){
-                if (!champion.owned) show = false
-            }
-
-            // Champion not owned
-            if(this.filters["filter_unowned"]){
-                if (champion.owned) show = false
-            }
-
-            // Skins owned
-            if(this.filters["filter_skins_owned"]){
-                let skinOwned = champion.skins.filter((skin) => {
-                    return skin.owned === true
-                })
-                if(skinOwned.length <= 0) show = false
-            }
-
-            // Skins not owned
-            if(this.filters["filter_skins_unowned"]){
-                let skinOwned = champion.skins.filter((skin) => {
-                    return skin.owned === true
-                })
-                if(skinOwned.length > 0) show = false
-            }
-
-            // Skin Shards owned
-            if(this.filters["filter_shards"]){
-                if(champion.skinShards.length <= 0) show = false
-            }
-
-            // If show is true, show the champion
-            if(show){
-                $(element).show()
-            }
-        })
     }
 }

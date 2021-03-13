@@ -1,8 +1,8 @@
 const $ = require('jquery')
-const ApiClient = require('./assets/js/classes/ApiClient.js')
-const CmdClient = require('./assets/js/classes/CmdClient.js')
-const DOMUtility = require('./assets/js/classes/DOMUtility.js')
-const Counter = require('./assets/js/classes/Counter.js')
+const ApiClient = require('./assets/js/classes/clients/ApiClient.js')
+const CmdClient = require('./assets/js/classes/clients/CmdClient.js')
+const DOMUtility = require('./assets/js/classes/utilities/DOMUtility.js')
+const CountUtility = require('./assets/js/classes/utilities/CountUtility.js')
 const ChampionList = require('./assets/js/classes/models/ChampionList.js')
 const LootList = require('./assets/js/classes/models/LootList.js')
 
@@ -18,11 +18,13 @@ cmdClient.getLCUPortAndPassword(async function (port, password) {
     let {summonerId} = await lcuClient.getCurrentSummoner()
     let championsData = await lcuClient.getChampions(summonerId)
     let lootData = await lcuClient.getLoot()
+    let imageData = await lcuClient.fetchImages(championsData)
 
-    let championList = new ChampionList(championsData).sortList()
+    let championList = new ChampionList(championsData, imageData).sortList()
     let lootList = new LootList(lootData).getList()
-    let counter = new Counter(championList.getList(), lootList)
-    let domUtility = new DOMUtility(lcuClient, championList.getList(), counter);
+    let counter = new CountUtility(championList.getList(), lootList)
+    let domUtility = new DOMUtility(championList.getList(), counter);
+
     championList.attachLoot(lootList)
     domUtility.renderCounts()
     domUtility.renderChampionList()

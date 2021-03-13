@@ -1,4 +1,4 @@
-module.exports = class Counter {
+module.exports = class CountUtility {
     skinList;
     championList;
     skinShardList;

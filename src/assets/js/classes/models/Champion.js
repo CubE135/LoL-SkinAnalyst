@@ -1,9 +1,11 @@
 const Skin = require('./Skin.js')
+const FilterUtility = require('../utilities/FilterUtility')
 
 module.exports = class Champion {
     id;
     name;
     img;
+    imageData;
     owned;
     purchaseDate;
     title;
@@ -13,10 +15,11 @@ module.exports = class Champion {
 
     element;
 
-    constructor(championData) {
+    constructor(championData, imageData) {
         this.id = championData.id
         this.name = championData.name
         this.img = championData.squarePortraitPath
+        this.imageData = this.transformToBase64(imageData)
         this.owned = championData.ownership.owned
         this.purchaseDate = championData.purchased
         this.title = championData.title
@@ -33,27 +36,33 @@ module.exports = class Champion {
         })
     }
 
+    transformToBase64(data){
+        let binary = "";
+        for ( let i = 0; i < data.length; i++ ) {
+            binary += String.fromCharCode(data.charCodeAt(i) & 255)
+        }
+        return "data:image/png;base64,"+btoa(binary)
+    }
+
     addSkinShards(skinShards){
         this.skinShards = skinShards
     }
 
-    render(lcuClient){
-        lcuClient.fetchImageData(this.img, (base64image) => {
-            this.element = $(`
-                <div class="col-2">
-                    <div class="champion_box role_`+this.role+`">
-                        <span class="ttip">
-                            <img src="data:image/png;base64,`+base64image+`" alt="Image"/>
-                            <span class="ttiptext">`+this.name+`</span>
-                        </span>
-                        <div class="bottom"></div>
-                    </div>
+    render(){
+        this.element = $(`
+            <div class="col-2 filter-grid-item" data-groups='`+FilterUtility.getGroups(this)+`'>
+                <div class="champion_box role_`+this.role+`">
+                    <span class="ttip">
+                        <img src="`+this.imageData+`" alt="Image"/>
+                        <span class="ttiptext">`+this.name+`</span>
+                    </span>
+                    <div class="bottom"></div>
                 </div>
-            `)
-            this.element.data("champion", this)
-            this.addButtons()
-            $('#champion_container .champion_list').append(this.element);
-        })
+            </div>
+        `)
+        this.element.data("champion", this)
+        this.addButtons()
+        $('#champion_container .champion_list').append(this.element);
     }
 
     addButtons(){

@@ -31,10 +31,19 @@ module.exports = class ApiClient {
         return this.call("/lol-loot/v1/player-loot")
     }
 
-    fetchImageData(imagePath, callback){
-        $.ajax({
+    fetchImages(championData){
+        let promises = []
+        championData.forEach((champion) => {
+            promises.push(
+                this.fetchImageData(champion.squarePortraitPath)
+            )
+        })
+        return Promise.all(promises)
+    }
+
+    fetchImageData(imagePath){
+        return $.ajax({
             type: "GET",
-            // url: this.baseUrl+"/lol-game-data/assets/v1/champion-icons/1.png",
             url: this.baseUrl+imagePath,
             headers: {
                 "Authorization": "Basic "+this.authToken
@@ -42,13 +51,6 @@ module.exports = class ApiClient {
             beforeSend: function (xhr) {
                 xhr.overrideMimeType('text/plain; charset=x-user-defined');
             }
-        }).done(function (result, textStatus, jqXHR) {
-            let binary = "";
-            for ( let i = 0; i < jqXHR.responseText.length; i++ ) {
-                binary += String.fromCharCode(jqXHR.responseText.charCodeAt(i) & 255)
-            }
-            callback(btoa(binary))
-            // $('#champion_container img').attr("src","data:image/png;base64,"+btoa(binary));
-        });
+        })
     }
 }
