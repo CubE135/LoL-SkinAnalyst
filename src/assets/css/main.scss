@@ -1,3 +1,8 @@
+$background_color_main: #313040;
+
+$scrollbar-track: #2d2e33;
+$scrollbar-thumb: #4e4e4e;
+
 $color_assassin: #983752;
 $color_fighter: #af9439;
 $color_mage: #2475b9;
@@ -10,19 +15,23 @@ $color_support: #589eb7;
 body {
     font-family: Exo2, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
-    background-color: #313040;
+    background-color: $background_color_main;
     color: white;
     user-select: none;
     overflow-y: scroll;
+    padding-right: 0 !important;
     &::-webkit-scrollbar {
         width: 5px;
     }
     &::-webkit-scrollbar-thumb {
-        background-color: #4e4e4e;
+        background-color: $scrollbar-thumb;
         border-radius: 6px;
     }
     &::-webkit-scrollbar-track {
-        background-color: #2d2e33;
+        background-color: $scrollbar-track;
+    }
+    &.modal-open {
+        overflow-y: scroll;
     }
 }
 
@@ -50,7 +59,7 @@ body {
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    background-color: #313040;
+    background-color: $background_color_main;
     z-index: 1000;
     svg {
         font-size: 8rem;
@@ -72,6 +81,32 @@ body {
     margin: 0;
     text-align: center;
     -webkit-app-region: drag;
+}
+
+#modal {
+    .modal-content {
+        background-color: $background_color_main;
+        .spinner {
+            text-align: center;
+            font-size: 50px;
+        }
+        .modal-body {
+            img {
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+            &::-webkit-scrollbar {
+                width: 5px;
+            }
+            &::-webkit-scrollbar-thumb {
+                background-color: $scrollbar-thumb;
+                border-radius: 6px;
+            }
+            &::-webkit-scrollbar-track {
+                background-color: $scrollbar-track;
+            }
+        }
+    }
 }
 
 #round_stat_container {
@@ -157,6 +192,7 @@ body {
         }
     }
     .champion_list {
+        overflow: inherit !important;
         .spinner {
             text-align: center;
             font-size: 50px;
@@ -182,50 +218,24 @@ body {
     }
 }
 
-/* Tooltip container */
-.ttip {
-    position: relative;
-    display: inline-block;
-
-    /* Tooltip text */
-    .ttiptext {
-        visibility: hidden;
-        width: 120px;
-        background-color: #555;
-        color: #fff;
-        text-align: center;
-        padding: 5px 0;
-        border-radius: 6px;
-
-        /* Position the tooltip text */
-        position: absolute;
-        z-index: 1;
-        bottom: 125%;
-        left: 50%;
-        margin-left: -60px;
-
-        /* Fade in tooltip */
-        opacity: 0;
-        transition: opacity 0.3s;
-
-        /* Tooltip arrow */
-        &::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #555 transparent transparent transparent;
-        }
-    }
-
-    /* Show the tooltip text when you mouse over the tooltip container */
-    &:hover .ttiptext {
-        visibility: visible;
-        opacity: 1;
-    }
+.tippy-box[data-theme~='custom'] {
+    background-color: #212121;
+    color: white;
 }
 
-
+.tippy-box[data-theme~='custom'][data-placement^='top'] > .tippy-arrow::before {
+    border-top-color: #212121;
+    transform: scale(.8);
+}
+.tippy-box[data-theme~='custom'][data-placement^='bottom'] > .tippy-arrow::before {
+    border-bottom-color: #212121;
+    transform: scale(.8);
+}
+.tippy-box[data-theme~='custom'][data-placement^='left'] > .tippy-arrow::before {
+    border-left-color: #212121;
+    transform: scale(.8);
+}
+.tippy-box[data-theme~='custom'][data-placement^='right'] > .tippy-arrow::before {
+    border-right-color: #212121;
+    transform: scale(.8);
+}

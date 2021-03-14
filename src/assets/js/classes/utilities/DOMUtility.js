@@ -1,14 +1,18 @@
 const FilterUtility = require('./FilterUtility')
+const tippy = require('tippy.js')
 
 module.exports = class DOMUtility {
     championList;
     counter;
+    lcuClient;
 
     filters;
+    modal;
 
-    constructor(championList, counter) {
+    constructor(championList, counter, lcuClient) {
         this.championList = championList;
         this.counter = counter
+        this.lcuClient = lcuClient
 
         this.filters = {
             "filter_owned": false,
@@ -17,6 +21,7 @@ module.exports = class DOMUtility {
             "filter_skins_unowned": false,
             "filter_shards": false
         }
+        this.initModal()
     }
 
     renderCounts() {
@@ -33,8 +38,9 @@ module.exports = class DOMUtility {
     renderChampionList() {
         $('#champion_container .champion_list').empty()
         this.championList.forEach((champion) => {
-            champion.render()
+            champion.render(this)
         })
+        this.handleTooltips('.champion_box img, .champion_box .bottom span')
     }
 
     static renderConnectionError(){
@@ -48,6 +54,13 @@ module.exports = class DOMUtility {
         $(document).on('click', '.quit', () => {
             window.close();
         })
+    }
+
+    handleTooltips(classes){
+        tippy.default(classes, {
+            theme: 'custom',
+            content: (reference) => reference.getAttribute('data-title')
+        });
     }
 
     handleFilters(){
@@ -67,5 +80,56 @@ module.exports = class DOMUtility {
         }else{
             element.removeClass('active')
         }
+    }
+
+    initModal(){
+        let modal = new bootstrap.Modal(document.getElementById('modal'), {
+            backdrop: true
+        })
+        this.modal = {
+            'object': modal,
+            'element': $(modal._element),
+            'title': $(modal._element).find('.modal-title'),
+            'body': $(modal._element).find('.modal-body'),
+            'body_row': $(modal._element).find('.modal-body .row')
+        }
+    }
+
+    openModal(type, champion){
+        this.modal.body_row.empty()
+        if (type === 'showOwnedSkins'){
+            this.renderImageTiles(champion, champion.getSkins(true))
+            this.modal.title.text('Owned Skins')
+        }else if(type === 'showNotOwnedSkins'){
+            this.renderImageTiles(champion, champion.getSkins(false))
+            this.modal.title.text('Not owned Skins')
+        }else if(type === 'showSkinShards'){
+            this.renderImageTiles(champion, champion.skinShards)
+            this.modal.title.text('Owned Skin Shards')
+        }
+        this.modal.object.show()
+    }
+
+    renderImageTiles(champion, skins){
+        let images = skins.map(skin => {return skin.img})
+        if(images.length === 0){
+            this.modal.body_row.append(`
+                <div class="col-12 text-center">
+                    Nothing found..
+                </div>
+            `)
+            return
+        }
+        this.lcuClient.fetchImages(images).then((imagesData) => {
+            skins.forEach((skin, key) => {
+                skin.imgData = champion.transformToBase64(imagesData[key])
+                this.modal.body_row.append(`
+                    <div class="col-3 skinImageTile" data-title="`+skin.name+`">
+                        <img src="`+skin.imgData+`" alt="`+skin.name+` Image" draggable="false"/>
+                    </div>
+                `)
+            })
+            this.handleTooltips('.skinImageTile')
+        })
     }
 }

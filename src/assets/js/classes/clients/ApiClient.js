@@ -31,11 +31,19 @@ module.exports = class ApiClient {
         return this.call("/lol-loot/v1/player-loot")
     }
 
-    fetchImages(championData){
-        let promises = []
+    fetchChampionImages(championData){
+        let images = []
         championData.forEach((champion) => {
+            images.push(champion.squarePortraitPath)
+        })
+        return this.fetchImages(images)
+    }
+
+    fetchImages(images){
+        let promises = []
+        images.forEach((image) => {
             promises.push(
-                this.fetchImageData(champion.squarePortraitPath)
+                this.fetchImageData(image)
             )
         })
         return Promise.all(promises)

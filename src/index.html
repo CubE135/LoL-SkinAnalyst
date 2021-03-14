@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="assets/css/ext/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/ext/fontawesome.min.css">
         <link rel="stylesheet" href="assets/css/main.min.css">
+        <link rel="stylesheet" href="../node_modules/tippy.js/dist/tippy.css">
         <script src="assets/js/main.js" defer></script>
         <script src="assets/js/ext/bootstrap.min.js" defer></script>
         <script src="assets/js/ext/fontawesome.min.js" defer></script>
@@ -90,16 +91,28 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="modal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content text-light">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-12 spinner">
+                                    <i class="fas fa-spinner fa-pulse"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
-<!--
-TODO:
-- Show amount of champs
-- Add filter to show:
-	- Skin Owned
-	- Skin Not Owned
-	- Skin Shards Owned
-- Allow multiple filters
-- Sorting
-...
- -->
