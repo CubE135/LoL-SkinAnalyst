@@ -2,6 +2,8 @@
 
 This App will give you detailed Information about your League Of Legends Skin Inventory.
 
+![Screenshot](https://raw.githubusercontent.com/CubE135/lolskinanalyst/master/src/assets/img/screenshot.png)
+
 ## Installation
 
 Just download the windows installer and run it. This will install the App and all it's dependencies.
