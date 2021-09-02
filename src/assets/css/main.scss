@@ -214,6 +214,14 @@ body {
                 background-color: #1d2331;
             }
         }
+        #search_box {
+            width: 70px;
+            display: none;
+            height: 16px;
+            padding: 5px;
+            border: none;
+            font-size: .7rem;
+        }
     }
 }
 

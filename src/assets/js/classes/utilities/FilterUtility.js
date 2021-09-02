@@ -40,7 +40,7 @@ module.exports = class FilterUtility {
         return JSON.stringify(groups);
     }
 
-    filter(filters){
+    filter(filters, search = false){
         let activeFilters = []
         filters = Object.entries(filters)
         filters.forEach((filter) => {
@@ -48,6 +48,17 @@ module.exports = class FilterUtility {
                 activeFilters.push(filter[0])
             }
         })
-        this.shuffleInstance.filter(activeFilters);
+        this.shuffleInstance.filter(function (element, _) {
+            let groups = $(element).data('groups')
+            let hasGroups = activeFilters.every(filter => groups.includes(filter))
+
+            if (search) {
+                let championTitle = $(element).find('img').data('title').toLowerCase()
+                return (championTitle.indexOf(search) !== -1) && hasGroups
+            } else {
+                return hasGroups
+            }
+        });
+        $('#champion_count').html('(' + this.shuffleInstance.visibleItems + ')');
     }
 }

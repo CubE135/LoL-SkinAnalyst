@@ -40,6 +40,7 @@ module.exports = class DOMUtility {
         this.championList.forEach((champion) => {
             champion.render(this)
         })
+        $('#champion_count').html('(' + this.championList.length + ')');
         this.handleTooltips('.champion_box img, .champion_box .bottom span')
     }
 
@@ -70,6 +71,20 @@ module.exports = class DOMUtility {
             _this.filters[e.target.id] = !_this.filters[e.target.id]
             _this.setFilterElementStatus(e.target.id, _this.filters[e.target.id])
             filterUtility.filter(this.filters)
+        })
+        $(document).on('click', '.filter_container .fa-search', (e) => {
+            $('#search_box').show('fast', function() {
+                $('#search_box').trigger('focus')
+            });
+        })
+        $(document).on('blur', '#search_box', (e) => {
+            $('#search_box').hide('fast', function() {
+                $('#search_box').val('')
+                filterUtility.filter(_this.filters)
+            });
+        })
+        $(document).on('keyup', '.filter_container #search_box', (e) => {
+            filterUtility.filter(_this.filters, e.target.value.toLowerCase())
         })
     }
 

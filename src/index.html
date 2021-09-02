@@ -75,13 +75,20 @@
             </div>
             <div id="champion_container" class="row mt-5">
                 <div class="col-12">
-                    <h2>Champions</h2>
+                    <h2>
+                        Champions
+                        <small id="champion_count">(<i class="fas fa-spinner fa-pulse"></i>)</small>
+                    </h2>
                     <div class="filter_container mb-3">
                         <span id="filter_owned">Champ Owned</span>
                         <span id="filter_unowned">Champ Not Owned</span>
                         <span id="filter_skins_owned">Skins Owned</span>
                         <span id="filter_skins_unowned">Skins Not Owned</span>
                         <span id="filter_shards">Shards Owned</span>
+                        <span id="search">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-control" id="search_box">
+                        </span>
                     </div>
                 </div>
                 <div class="row champion_list filter-grid">
