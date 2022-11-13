@@ -93,7 +93,30 @@ body {
         .modal-body {
             img {
                 max-width: 100%;
+            }
+            .skinImageTile {
                 margin-bottom: 20px;
+                .price {
+                    background: #1c1c1c;
+                    width: 100%;
+                    display: block;
+                    border-bottom-left-radius: 5px;
+                    border-bottom-right-radius: 5px;
+                    text-align: center;
+                }
+                .discount {
+                    position: absolute;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    top: 0;
+                    height: 35px;
+                    width: 35px;
+                    transform: translate(-10px, 5px);
+                    background: red;
+                    border-radius: 100%;
+                    font-size: 13px;
+                }
             }
             &::-webkit-scrollbar {
                 width: 5px;
@@ -200,12 +223,16 @@ body {
     .filter_container {
         display: flex;
         justify-content: center;
+        flex-wrap: wrap;
+        max-width: 500px;
+        margin: 0 auto;
         span {
             font-size: 13px;
             background-color: #3a538c;
             padding: 5px 10px;
             border-radius: 15px;
             margin-right: 5px;
+            margin-bottom: 5px;
             cursor: pointer;
             &:hover {
                 background-color: #30487d;

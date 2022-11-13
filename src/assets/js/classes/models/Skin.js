@@ -5,11 +5,12 @@ module.exports = class Skin {
     owned;
     type;
 
-    constructor(skinData) {
+    constructor(skinData, storeItem) {
         this.id = skinData.name
         this.name = skinData.name
         this.img = skinData.tilePath
         this.owned = skinData.ownership.owned
         this.type = skinData.skinType
+        this.storeItem = storeItem
     }
 }

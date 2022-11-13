@@ -1,3 +1,4 @@
+const $ = require('jquery')
 const FilterUtility = require('./FilterUtility')
 const tippy = require('tippy.js')
 
@@ -19,7 +20,8 @@ module.exports = class DOMUtility {
             "filter_unowned": false,
             "filter_skins_owned": false,
             "filter_skins_unowned": false,
-            "filter_shards": false
+            "filter_shards": false,
+            "filter_sale": false
         }
         this.initModal()
     }
@@ -137,14 +139,34 @@ module.exports = class DOMUtility {
         }
         this.lcuClient.fetchImages(images).then((imagesData) => {
             skins.forEach((skin, key) => {
+                let priceData = this.calcSkinPrice(skin)
                 skin.imgData = champion.transformToBase64(imagesData[key])
                 this.modal.body_row.append(`
                     <div class="col-3 skinImageTile" data-title="`+skin.name+`">
                         <img src="`+skin.imgData+`" alt="`+skin.name+` Image" draggable="false"/>
+                        <span class="price">`+priceData.price+`</span>
+                        ` + (priceData.discount ? '<span class="discount">'+priceData.discount+'</span>' : '') + `
                     </div>
                 `)
             })
             this.handleTooltips('.skinImageTile')
         })
+    }
+
+    calcSkinPrice(skin) {
+        let price = skin?.storeItem?.sale?.prices[0]?.cost
+        let discount = null
+        if (price) {
+            discount = (100 - Math.round(skin.storeItem.sale.prices[0].discount * 100)) + ' %'
+            price += ' ' + skin.storeItem.sale.prices[0].currency
+        } else {
+            price = skin?.storeItem?.prices[0]?.cost
+            if (price) {
+                price += ' ' + skin.storeItem.prices[0].currency
+            } else {
+                price = 'n/a'
+            }
+        }
+        return {price, discount}
     }
 }

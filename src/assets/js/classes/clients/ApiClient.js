@@ -1,3 +1,4 @@
+const $ = require('jquery')
 module.exports = class ApiClient {
     constructor(port, password) {
         this.baseUrl = 'https://127.0.0.1:'+port;
@@ -29,6 +30,10 @@ module.exports = class ApiClient {
 
     getLoot(){
         return this.call("/lol-loot/v1/player-loot")
+    }
+
+    getStoreCatalog(){
+        return this.call("/lol-store/v1/catalog")
     }
 
     fetchChampionImages(championData){

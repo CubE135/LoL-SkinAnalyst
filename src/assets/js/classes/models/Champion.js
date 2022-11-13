@@ -1,3 +1,4 @@
+const $ = require('jquery')
 const Skin = require('./Skin.js')
 const FilterUtility = require('../utilities/FilterUtility')
 
@@ -16,7 +17,7 @@ module.exports = class Champion {
     element;
     domUtility;
 
-    constructor(championData, imageData) {
+    constructor(championData, imageData, storeItems) {
         this.id = championData.id
         this.name = championData.name
         this.img = championData.squarePortraitPath
@@ -25,6 +26,7 @@ module.exports = class Champion {
         this.purchaseDate = championData.purchased
         this.title = championData.title
         this.role = championData.roles[0]
+        this.storeItems = storeItems
 
         this.skins = []
         this.initSkinData(championData.skins)
@@ -33,7 +35,10 @@ module.exports = class Champion {
     initSkinData(skinsData){
         skinsData.forEach((skinData) => {
             if (skinData.isBase) return;
-            this.skins.push(new Skin(skinData))
+            const storeItem = this.storeItems.find(item => {
+                return item.itemId === skinData.id
+            })
+            this.skins.push(new Skin(skinData, storeItem))
         })
     }
 

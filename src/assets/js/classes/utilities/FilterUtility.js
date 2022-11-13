@@ -1,3 +1,4 @@
+const $ = require('jquery')
 const Shuffle = require('shufflejs')
 
 module.exports = class FilterUtility {
@@ -36,6 +37,9 @@ module.exports = class FilterUtility {
 
         /** SkinShards owned */
         if (champion.skinShards.length > 0) groups.push("filter_shards")
+
+        /** Skins on Sale */
+        if (champion.storeItems.some(item => item.sale !== null)) groups.push("filter_sale")
 
         return JSON.stringify(groups);
     }

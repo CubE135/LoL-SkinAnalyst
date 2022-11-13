@@ -3,9 +3,20 @@ const Champion = require('./Champion.js')
 module.exports = class ChampionList {
     champions = [];
 
-    constructor(championsData, imageData) {
+    constructor(championsData, imageData, storeCatalog) {
         championsData.forEach((championData, key) => {
-            if (championData.id > 0) this.champions.push(new Champion(championData, imageData[key]))
+            if (championData.id > 0) {
+                const storeItems = []
+                championData.skins.forEach(skin => {
+                    const storeItem = storeCatalog.find(item => {
+                        return item.itemId === skin.id
+                    })
+                    if (storeItem) {
+                        storeItems.push(storeItem)
+                    }
+                })
+                this.champions.push(new Champion(championData, imageData[key], storeItems))
+            }
         })
     }
 
