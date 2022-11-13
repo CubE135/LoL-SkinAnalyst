@@ -18,9 +18,10 @@ cmdClient.getLCUPortAndPassword(async function (port, password) {
     let championsData = await lcuClient.getChampions(summonerId)
     let lootData = await lcuClient.getLoot()
     let storeCatalog = await lcuClient.getStoreCatalog()
+    let statStones = await lcuClient.getStatstones()
     let imageData = await lcuClient.fetchChampionImages(championsData)
 
-    let championList = new ChampionList(championsData, imageData, storeCatalog).sortList()
+    let championList = new ChampionList(championsData, imageData, storeCatalog, statStones).sortList()
     let lootList = new LootList(lootData).getList()
     let counter = new CountUtility(championList.getList(), lootList)
     let domUtility = new DOMUtility(championList.getList(), counter, lcuClient);

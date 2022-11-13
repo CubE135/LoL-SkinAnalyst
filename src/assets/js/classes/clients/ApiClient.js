@@ -35,6 +35,10 @@ module.exports = class ApiClient {
     getStoreCatalog(){
         return this.call("/lol-store/v1/catalog")
     }
+    
+    getStatstones(){
+        return this.call("/lol-statstones/v2/player-summary-self")
+    }
 
     fetchChampionImages(championData){
         let images = []

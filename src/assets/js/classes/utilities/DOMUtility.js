@@ -21,7 +21,8 @@ module.exports = class DOMUtility {
             "filter_skins_owned": false,
             "filter_skins_unowned": false,
             "filter_shards": false,
-            "filter_sale": false
+            "filter_sale": false,
+            "filter_eternals_unowned": false
         }
         this.initModal()
     }

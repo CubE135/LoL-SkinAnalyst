@@ -13,11 +13,13 @@ module.exports = class Champion {
     role;
     skins;
     skinShards;
+    storeItems;
+    statStone;
 
     element;
     domUtility;
 
-    constructor(championData, imageData, storeItems) {
+    constructor(championData, imageData, storeItems, statStone) {
         this.id = championData.id
         this.name = championData.name
         this.img = championData.squarePortraitPath
@@ -27,6 +29,7 @@ module.exports = class Champion {
         this.title = championData.title
         this.role = championData.roles[0]
         this.storeItems = storeItems
+        this.statStone = statStone
 
         this.skins = []
         this.initSkinData(championData.skins)
