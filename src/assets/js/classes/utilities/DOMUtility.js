@@ -56,7 +56,11 @@ module.exports = class DOMUtility {
             location.reload()
         })
         $(document).on('click', '.quit', () => {
-            window.close();
+            window.close()
+        })
+        $(document).on('click', '.minimize', () => {
+            const electron = window.require('electron')
+            electron.ipcRenderer.send('minimize')
         })
     }
 

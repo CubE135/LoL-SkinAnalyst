@@ -35,20 +35,6 @@ body {
     }
 }
 
-.quit {
-    position: fixed;
-    top: 5px;
-    right: 5px;
-    padding: 0 8px;
-    line-height: 24px;
-    border-radius: 5px;
-    z-index: 1001;
-    &:hover {
-        cursor: pointer;
-        background-color: #00000029;
-    }
-}
-
 .overlay {
     position: fixed;
     top: 0;
@@ -77,10 +63,32 @@ body {
     }
 }
 
+.bar {
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding: 0 10px;
+    background: #22212c;
+    width: 100%;
+    height: 35px;
+    z-index: 1;
+    -webkit-app-region: drag;
+    .app-btn {
+        padding: 0 8px;
+        border-radius: 5px;
+        -webkit-app-region: no-drag;
+        &:hover {
+            cursor: pointer;
+            background-color: #00000029;
+        }
+    }
+}
+
 .brand-title {
     margin: 0;
     text-align: center;
-    -webkit-app-region: drag;
 }
 
 #modal {
@@ -109,10 +117,9 @@ body {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    top: 0;
                     height: 35px;
                     width: 35px;
-                    transform: translate(-10px, 5px);
+                    transform: translate(-10px, -130px);
                     background: red;
                     border-radius: 100%;
                     font-size: 13px;

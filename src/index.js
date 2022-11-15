@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
 app.commandLine.appendSwitch('ignore-certificate-errors', 'true');
@@ -22,6 +22,11 @@ const createWindow = () => {
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
+
+  
+  ipcMain.on('minimize', () => {
+    mainWindow.minimize();
+  });
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
