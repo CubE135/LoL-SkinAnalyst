@@ -29,7 +29,10 @@ const createWindow = () => {
   });
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  const runDevTools = app.commandLine.hasSwitch("console")
+  if (runDevTools) {
+    mainWindow.webContents.openDevTools();
+  }
 };
 
 app.on('ready', createWindow);

@@ -159,19 +159,37 @@ module.exports = class DOMUtility {
     }
 
     calcSkinPrice(skin) {
-        let price = skin?.storeItem?.sale?.prices[0]?.cost
-        let discount = null
-        if (price) {
-            discount = (100 - Math.round(skin.storeItem.sale.prices[0].discount * 100)) + ' %'
-            price += ' ' + skin.storeItem.sale.prices[0].currency
-        } else {
-            price = skin?.storeItem?.prices[0]?.cost
+        let price, discount, currency, icon
+        if (skin.constructor.name === 'Skin') {
+            price = skin?.storeItem?.sale?.prices[0]?.cost
+            discount = null
             if (price) {
-                price += ' ' + skin.storeItem.prices[0].currency
+                discount = (100 - Math.round(skin.storeItem.sale.prices[0].discount * 100)) + ' %'
+                price += ' ' + skin.storeItem.sale.prices[0].currency
             } else {
-                price = 'n/a'
+                price = skin?.storeItem?.prices[0]?.cost
+                if (price) {
+                    currency = skin.storeItem.prices[0].currency
+                } else {
+                    price = '-'
+                }
             }
+        } else if (skin.constructor.name === 'SkinShard') {
+            currency = 'OE'
+            price = skin.upgradeEssenceValue
+            discount = false
+        } else {
+            price = '-'
+            discount = false
         }
+        if (currency === 'RP') {
+            icon = 'rp.png'
+        } else if (currency === 'OE') {
+            icon = 'oe.png'
+        } else {
+            icon = 'be.png'
+        }
+        price += ' <img src="file://' + __dirname + '../../../../img/currencies/' + icon + '" style="width: 16px;">'
         return {price, discount}
     }
 }

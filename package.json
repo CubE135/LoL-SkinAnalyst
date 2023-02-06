@@ -1,11 +1,12 @@
 {
   "name": "lolskinanalyst",
   "productName": "LoL SkinAnalyst",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "This App will give you detailed Information about your League Of Legends Skin Inventory.",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
+    "console-start": "electron-forge start -- --console",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
