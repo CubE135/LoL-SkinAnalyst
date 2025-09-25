@@ -42,8 +42,16 @@ module.exports = class FilterUtility {
         if (champion.storeItems.some(item => item.sale !== null)) groups.push("filter_sale")
 
         /** Eternals Series 1 not owned */
-        const series1 = champion.statStone.sets.find(e => e.name === 'Series 1')
-        if (series1.stonesOwned !== series1.stonesAvailable) groups.push("filter_eternals_unowned")
+        if (champion.statStone) {
+            const series1 = champion.statStone.sets.find(
+                (e) => e.name === 'Series 1'
+            )
+
+            console.log(champion.statStone.sets)
+
+            if (series1.stonesOwned !== series1.stonesAvailable)
+                groups.push('filter_eternals_unowned')
+        }
 
         return JSON.stringify(groups);
     }

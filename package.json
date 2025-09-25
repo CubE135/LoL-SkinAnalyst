@@ -1,78 +1,48 @@
 {
-  "name": "lolskinanalyst",
-  "productName": "LoL SkinAnalyst",
-  "version": "1.0.4",
-  "description": "This App will give you detailed Information about your League Of Legends Skin Inventory.",
-  "main": "src/index.js",
-  "scripts": {
-    "start": "electron-forge start",
-    "console-start": "electron-forge start -- --console",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
-  },
-  "keywords": [],
-  "author": {
-    "name": "CubE135",
-    "email": "myaddi08@yahoo.de"
-  },
-  "license": "MIT",
-  "build": {
+    "name": "lolskinanalyst",
     "productName": "LoL SkinAnalyst",
-    "appId": "lolskinanalyst",
-    "win": {
-      "icon": "src/assets/img/icon.ico"
+    "version": "1.0.4",
+    "description": "This App will give you detailed Information about your League Of Legends Skin Inventory.",
+    "main": "src/index.js",
+    "scripts": {
+        "start": "bunx electron-forge start",
+        "package": "bunx electron-forge package",
+        "make": "bunx electron-forge make",
+        "publish": "bunx electron-forge publish"
     },
-    "nsis": {
-      "installerIcon": "src/assets/img/icon.ico",
-      "uninstallerIcon": "src/assets/img/icon.ico",
-      "uninstallDisplayName": "${productName}",
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true
-    }
-  },
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "lolskinanalyst"
-          }
+    "author": {
+        "name": "CubE135",
+        "email": "myaddi08@yahoo.de"
+    },
+    "license": "MIT",
+    "build": {
+        "productName": "LoL SkinAnalyst",
+        "appId": "lolskinanalyst",
+        "win": {
+            "icon": "src/assets/img/icon.ico"
         },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
+        "nsis": {
+            "installerIcon": "src/assets/img/icon.ico",
+            "uninstallerIcon": "src/assets/img/icon.ico",
+            "uninstallDisplayName": "${productName}",
+            "oneClick": false,
+            "allowToChangeInstallationDirectory": true
         }
-      ]
-    }
-  },
-  "dependencies": {
-    "electron-squirrel-startup": "^1.0.0",
-    "jquery": "^3.5.1",
-    "shufflejs": "^5.2.3",
-    "tippy.js": "^6.3.1"
-  },
-  "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.54",
-    "@electron-forge/maker-deb": "^6.0.0-beta.54",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
-    "@electron-forge/maker-zip": "^6.0.0-beta.54",
-    "electron": "^21.2.3",
-    "electron-builder": "^22.9.1"
-  }
+    },
+    "dependencies": {
+        "electron-squirrel-startup": "^1.0.0",
+        "jquery": "^3.7.1",
+        "shufflejs": "^6.1.0",
+        "tippy.js": "^6.3.7"
+    },
+    "devDependencies": {
+        "@electron-forge/cli": "^6.4.2",
+        "@electron-forge/maker-deb": "^6.4.2",
+        "@electron-forge/maker-rpm": "^6.4.2",
+        "@electron-forge/maker-squirrel": "^6.4.2",
+        "@electron-forge/maker-zip": "^6.4.2",
+        "electron": "^32.3.3",
+        "electron-builder": "^24.13.3"
+    },
+    "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
