@@ -1,9 +1,9 @@
 module.exports = class Skin {
-    id;
-    name;
-    img;
-    owned;
-    type;
+    id
+    name
+    img
+    owned
+    type
 
     constructor(skinData, storeItem) {
         this.id = skinData.name

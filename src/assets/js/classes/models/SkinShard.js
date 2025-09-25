@@ -1,11 +1,11 @@
 module.exports = class SkinShard {
-    id;
-    name;
-    rarity;
-    value;
-    disenchantValue;
-    upgradeEssenceValue;
-    img;
+    id
+    name
+    rarity
+    value
+    disenchantValue
+    upgradeEssenceValue
+    img
 
     constructor(shardData) {
         this.id = shardData.storeItemId

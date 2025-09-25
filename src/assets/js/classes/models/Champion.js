@@ -3,21 +3,21 @@ const Skin = require('./Skin.js')
 const FilterUtility = require('../utilities/FilterUtility')
 
 module.exports = class Champion {
-    id;
-    name;
-    img;
-    imageData;
-    owned;
-    purchaseDate;
-    title;
-    role;
-    skins;
-    skinShards;
-    storeItems;
-    statStone;
+    id
+    name
+    img
+    imageData
+    owned
+    purchaseDate
+    title
+    role
+    skins
+    skinShards
+    storeItems
+    statStone
 
-    element;
-    domUtility;
+    element
+    domUtility
 
     constructor(championData, imageData, storeItems, statStone) {
         this.id = championData.id
@@ -35,56 +35,68 @@ module.exports = class Champion {
         this.initSkinData(championData.skins)
     }
 
-    initSkinData(skinsData){
+    initSkinData(skinsData) {
         skinsData.forEach((skinData) => {
-            if (skinData.isBase) return;
-            const storeItem = this.storeItems.find(item => {
+            if (skinData.isBase) return
+            const storeItem = this.storeItems.find((item) => {
                 return item.itemId === skinData.id
             })
             this.skins.push(new Skin(skinData, storeItem))
         })
     }
 
-    transformToBase64(data){
-        let binary = "";
-        for ( let i = 0; i < data.length; i++ ) {
+    transformToBase64(data) {
+        let binary = ''
+        for (let i = 0; i < data.length; i++) {
             binary += String.fromCharCode(data.charCodeAt(i) & 255)
         }
-        return "data:image/png;base64,"+btoa(binary)
+        return 'data:image/png;base64,' + btoa(binary)
     }
 
-    addSkinShards(skinShards){
+    addSkinShards(skinShards) {
         this.skinShards = skinShards
     }
 
-    getSkins(owned){
+    getSkins(owned) {
         let skins = []
         this.skins.forEach((skin) => {
-            if(owned){
+            if (owned) {
                 if (skin.owned) skins.push(skin)
-            }else{
+            } else {
                 if (!skin.owned) skins.push(skin)
             }
         })
         return skins
     }
 
-    render(domUtility){
+    render(domUtility) {
         this.domUtility = domUtility
-        this.element = $(`
-            <div class="col-2 filter-grid-item" data-groups='`+FilterUtility.getGroups(this)+`'>
-                <div class="champion_box role_`+this.role+`">
-                    <img src="`+this.imageData+`" alt="`+this.name+` Image" data-title="`+this.name+`" draggable="false"/>
+        this.element = $(
+            `
+            <div class="col-2 filter-grid-item" data-groups='` +
+                FilterUtility.getGroups(this) +
+                `'>
+                <div class="champion_box role_` +
+                this.role +
+                `">
+                    <img src="` +
+                this.imageData +
+                `" alt="` +
+                this.name +
+                ` Image" data-title="` +
+                this.name +
+                `" draggable="false"/>
                     <div class="bottom"></div>
                 </div>
             </div>
-        `)
-        this.element.data("champion", this)
+        `
+        )
+        this.element.data('champion', this)
         this.addButtons()
-        $('#champion_container .champion_list').append(this.element);
+        $('#champion_container .champion_list').append(this.element)
     }
 
-    addButtons(){
+    addButtons() {
         this.ownedSkinsBtn = $(`
             <span data-title="Owned Skins">
                 <i class="fas fa-check-circle showOwnedSkins"></i>
@@ -101,9 +113,15 @@ module.exports = class Champion {
             </span>
         `)
 
-        this.ownedSkinsBtn.on('click', () => {this.domUtility.openModal('showOwnedSkins', this)})
-        this.notOwnedSkinsBtn.on('click', () => {this.domUtility.openModal('showNotOwnedSkins', this)})
-        this.skinShardsBtn.on('click', () => {this.domUtility.openModal('showSkinShards', this)})
+        this.ownedSkinsBtn.on('click', () => {
+            this.domUtility.openModal('showOwnedSkins', this)
+        })
+        this.notOwnedSkinsBtn.on('click', () => {
+            this.domUtility.openModal('showNotOwnedSkins', this)
+        })
+        this.skinShardsBtn.on('click', () => {
+            this.domUtility.openModal('showSkinShards', this)
+        })
 
         this.element.find('.bottom').append(this.ownedSkinsBtn)
         this.element.find('.bottom').append(this.notOwnedSkinsBtn)

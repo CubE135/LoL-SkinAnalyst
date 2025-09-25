@@ -1,12 +1,13 @@
 const SkinShard = require('./SkinShard.js')
 
 module.exports = class LootList {
-    loot;
+    loot
 
     constructor(lootData) {
-        this.loot = {skinShards: []}
+        this.loot = { skinShards: [] }
         lootData.forEach((lootItem) => {
-            if (lootItem.displayCategories === "SKIN") this.loot.skinShards.push(new SkinShard(lootItem))
+            if (lootItem.displayCategories === 'SKIN')
+                this.loot.skinShards.push(new SkinShard(lootItem))
         })
     }
 

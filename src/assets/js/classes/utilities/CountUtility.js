@@ -1,14 +1,14 @@
 module.exports = class CountUtility {
-    skinList;
-    championList;
-    skinShardList;
+    skinList
+    championList
+    skinShardList
 
-    skinsOwnedCount;
-    skinsNotOwnedCount;
-    championOwnedCount;
-    championNotOwnedCount;
-    skinShardCount;
-    skinShardLegendaryCount;
+    skinsOwnedCount
+    skinsNotOwnedCount
+    championOwnedCount
+    championNotOwnedCount
+    skinShardCount
+    skinShardLegendaryCount
 
     constructor(championList, lootList) {
         this.skinList = []
@@ -56,7 +56,7 @@ module.exports = class CountUtility {
     countSkinShards() {
         this.skinShardList.forEach((skinShard) => {
             this.skinShardCount++
-            if (skinShard.rarity === "LEGENDARY") this.skinShardLegendaryCount++
+            if (skinShard.rarity === 'LEGENDARY') this.skinShardLegendaryCount++
         })
     }
 }
