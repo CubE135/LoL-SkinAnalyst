@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>LoL SkinAnalyst</title>
+    <script type="module" src="/src/renderer.ts"></script>
+  </head>
+  <body>
+    <div class="overlay">
+      <i class="fas fa-bomb"></i>
+      <p>Seems like something exploded!</p>
+      <small>Did you start League of Legends?</small>
+      <button id="reload-page" type="button" class="btn btn-info btn-sm">
+        Yes!
+      </button>
+    </div>
+    <div class="bar">
+      <div class="app-btn minimize">
+        <i class="fas fa-minus"></i>
+      </div>
+      <div class="app-btn quit">
+        <i class="fas fa-times"></i>
+      </div>
+    </div>
+    <div class="container pt-5">
+      <h1 class="brand-title">LoL SkinAnalyst</h1>
+      <div id="round_stat_container" class="row mt-3">
+        <div class="col-4">
+          <h2>Skins Owned</h2>
+          <div id="skins_owned_stat" class="round_stat">
+            <div class="stat_content">
+              <span class="big_number">
+                <i class="fas fa-spinner fa-pulse"></i>
+              </span>
+              <span>
+                Not Owned:
+                <span>
+                  <i class="fas fa-spinner fa-pulse"></i>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <h2>Skin Shards Owned</h2>
+          <div id="skin_shards_owned_stat" class="round_stat">
+            <div class="stat_content">
+              <span class="big_number">
+                <i class="fas fa-spinner fa-pulse"></i>
+              </span>
+              <span>
+                Legendary:
+                <span>
+                  <i class="fas fa-spinner fa-pulse"></i>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <h2>Champs Owned</h2>
+          <div id="champs_owned_stat" class="round_stat">
+            <div class="stat_content">
+              <span class="big_number">
+                <i class="fas fa-spinner fa-pulse"></i>
+              </span>
+              <span>
+                Not Owned:
+                <span>
+                  <i class="fas fa-spinner fa-pulse"></i>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="champion_container" class="row mt-5">
+        <div class="col-12">
+          <h2>
+            Champions
+            <small id="champion_count"
+              >(<i class="fas fa-spinner fa-pulse"></i>)</small
+            >
+          </h2>
+          <div class="filter_container mb-3">
+            <span id="filter_owned">Champ Owned</span>
+            <span id="filter_unowned">Champ not Owned</span>
+            <span id="filter_skins_owned">Skins Owned</span>
+            <span id="filter_skins_unowned">Skins not Owned</span>
+            <span id="filter_shards">Shards Owned</span>
+            <span id="filter_sale">Skins on Sale</span>
+            <span id="filter_eternals_unowned">Eternals not Owned</span>
+            <span id="search">
+              <i class="fas fa-search"></i>
+              <input type="text" class="form-control" id="search_box" />
+            </span>
+          </div>
+        </div>
+        <div class="row champion_list filter-grid">
+          <div class="col-12 spinner">
+            <i class="fas fa-spinner fa-pulse"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content text-light">
+          <div class="modal-header">
+            <h5 class="modal-title"></h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12 spinner">
+                  <i class="fas fa-spinner fa-pulse"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
