@@ -1,13 +1,14 @@
 export default class SkinShard {
-  id
-  name
-  rarity
-  value
-  disenchantValue
-  upgradeEssenceValue
-  img
+  id: number
+  name: string
+  rarity: string
+  value: number
+  disenchantValue: number
+  upgradeEssenceValue: number
+  img: string
+  parent: number
 
-  constructor(shardData) {
+  constructor(shardData: LootType) {
     this.id = shardData.storeItemId
     this.name = shardData.itemDesc
     this.rarity = shardData.rarity

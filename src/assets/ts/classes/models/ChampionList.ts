@@ -1,12 +1,19 @@
-import Champion from './Champion.js'
+import { getChampionIconUrlFromId } from '../utilities/DDragon'
+import Champion from './Champion'
+import SkinShard from './SkinShard'
 
 export default class ChampionList {
-  champions = []
+  champions: Champion[] = []
 
-  constructor(championsData, imageData, storeCatalog, statStones) {
-    championsData.forEach((championData, key) => {
+  constructor(
+    championsData: ChampionType[],
+    imageData: string[],
+    storeCatalog: StoreCatalogType[],
+    statStones: StatStoneType[]
+  ) {
+    championsData.forEach(async (championData, key) => {
       if (championData.id > 0 && championData.active) {
-        const storeItems = []
+        const storeItems: StoreCatalogType[] = []
         championData.skins.forEach((skin) => {
           const storeItem = storeCatalog.find((item) => {
             return item.itemId === skin.id
@@ -19,17 +26,15 @@ export default class ChampionList {
           (e) => e.championId === championData.id
         )
         this.champions.push(
-          new Champion(championData, imageData[key], storeItems, statStone)
+          new Champion(championData, imageData[key - 1], storeItems, statStone)
         )
       }
     })
-
-    console.log(this.champions)
   }
 
-  attachLoot(lootList) {
+  attachLoot(lootList: { skinShards: SkinShard[] }) {
     this.champions.forEach((champion) => {
-      let shards = []
+      let shards: SkinShard[] = []
       lootList.skinShards.forEach((skinShard) => {
         if (skinShard.parent === champion.id) shards.push(skinShard)
       })

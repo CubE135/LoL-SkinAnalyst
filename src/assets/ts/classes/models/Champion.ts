@@ -1,25 +1,35 @@
 import $ from 'jquery'
 import Skin from './Skin'
 import FilterUtility from '../utilities/FilterUtility'
+import SkinShard from './SkinShard'
+import DOMUtility from '../utilities/DOMUtility'
 
 export default class Champion {
-  id
-  name
-  img
+  id: number
+  name: string
+  img: string
   imageData
-  owned
-  purchaseDate
-  title
-  role
-  skins
-  skinShards
-  storeItems
-  statStone
+  owned: boolean
+  purchaseDate: number
+  title: string
+  role: string
+  skins: Skin[]
+  skinShards: SkinShard[]
+  storeItems: StoreCatalogType[]
+  statStone: StatStoneType
 
-  element
-  domUtility
+  element: JQuery<HTMLElement>
+  domUtility: DOMUtility
+  ownedSkinsBtn: JQuery<HTMLElement>
+  notOwnedSkinsBtn: JQuery<HTMLElement>
+  skinShardsBtn: JQuery<HTMLElement>
 
-  constructor(championData, imageData, storeItems, statStone) {
+  constructor(
+    championData: ChampionType,
+    imageData: string,
+    storeItems: StoreCatalogType[],
+    statStone: StatStoneType
+  ) {
     this.id = championData.id
     this.name = championData.name
     this.img = championData.squarePortraitPath
@@ -35,7 +45,7 @@ export default class Champion {
     this.initSkinData(championData.skins)
   }
 
-  initSkinData(skinsData) {
+  initSkinData(skinsData: SkinType[]) {
     skinsData.forEach((skinData) => {
       if (skinData.isBase) return
       const storeItem = this.storeItems.find((item) => {
@@ -45,12 +55,12 @@ export default class Champion {
     })
   }
 
-  addSkinShards(skinShards) {
+  addSkinShards(skinShards: SkinShard[]) {
     this.skinShards = skinShards
   }
 
-  getSkins(owned) {
-    let skins = []
+  getSkins(owned: boolean) {
+    let skins: Skin[] = []
     this.skins.forEach((skin) => {
       if (owned) {
         if (skin.owned) skins.push(skin)
@@ -61,7 +71,7 @@ export default class Champion {
     return skins
   }
 
-  render(domUtility) {
+  render(domUtility: DOMUtility) {
     this.domUtility = domUtility
     this.element = $(
       `

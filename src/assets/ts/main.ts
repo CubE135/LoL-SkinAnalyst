@@ -1,9 +1,9 @@
 import ApiClient from './classes/clients/ApiClient'
-import CmdClient from './classes/clients/CmdClient.js'
-import DOMUtility from './classes/utilities/DOMUtility.js'
-import CountUtility from './classes/utilities/CountUtility.js'
-import ChampionList from './classes/models/ChampionList.js'
-import LootList from './classes/models/LootList.js'
+import CmdClient from './classes/clients/CmdClient'
+import DOMUtility from './classes/utilities/DOMUtility'
+import CountUtility from './classes/utilities/CountUtility'
+import ChampionList from './classes/models/ChampionList'
+import LootList from './classes/models/LootList'
 
 let cmdClient = new CmdClient()
 cmdClient.getLCUPortAndPassword(async function (

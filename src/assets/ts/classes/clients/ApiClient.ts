@@ -1,7 +1,11 @@
 import { getChampionIconUrlFromId } from '../../classes/utilities/DDragon'
 
 export default class ApiClient {
-  constructor(port, password) {
+  baseUrl: string
+  authToken: string
+  apiCallOptions: { method: string; headers: { Authorization: string } }
+
+  constructor(port: number, password: string) {
     this.baseUrl = 'https://127.0.0.1:' + port
     this.authToken = btoa('riot:' + password)
     this.initApiCallOptions()
@@ -16,54 +20,54 @@ export default class ApiClient {
     }
   }
 
-  async call(endpoint) {
+  async call(endpoint: string) {
     return await window.apiClient.call(
       this.baseUrl + endpoint,
       this.apiCallOptions
     )
   }
 
-  async getCurrentSummoner() {
+  async getCurrentSummoner(): Promise<CurrentSummonerType> {
     return this.call('/lol-summoner/v1/current-summoner')
   }
 
-  getChampions(summonerId) {
+  getChampions(summonerId: number): Promise<ChampionType[]> {
     return this.call(
       '/lol-champions/v1/inventories/' + summonerId + '/champions'
     )
   }
 
-  getLoot() {
+  getLoot(): Promise<LootType[]> {
     return this.call('/lol-loot/v1/player-loot')
   }
 
-  getStoreCatalog() {
+  getStoreCatalog(): Promise<StoreCatalogType[]> {
     return this.call('/lol-store/v1/catalog')
   }
 
-  getStatstones() {
+  getStatstones(): Promise<StatStoneType[]> {
     return this.call('/lol-statstones/v2/player-summary-self')
   }
 
-  fetchChampionImages(championData) {
-    let names = []
+  fetchChampionImages(championData: ChampionType[]): Promise<string[]> {
+    let championIds: number[] = []
     championData.forEach((champion) => {
       if (champion.id > 0 && champion.active) {
-        names.push(champion.id)
+        championIds.push(champion.id)
       }
     })
-    return this.fetchImages(names)
+    return this.fetchImages(championIds)
   }
 
-  async fetchImages(names) {
-    let promises = []
-    names.forEach((name) => {
-      promises.push(this.fetchImageData(name))
+  async fetchImages(championIds: number[]) {
+    let promises: Promise<string>[] = []
+    championIds.forEach((championId) => {
+      promises.push(this.fetchImageData(championId))
     })
     return Promise.all(promises)
   }
 
-  async fetchImageData(name) {
-    return await getChampionIconUrlFromId(name)
+  async fetchImageData(championId: number) {
+    return await getChampionIconUrlFromId(championId)
   }
 }
