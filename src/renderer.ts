@@ -29,7 +29,7 @@
 import './assets/css/ext/bootstrap.min.css'
 import './assets/css/ext/fontawesome.min.css'
 import './assets/css/main.min.css'
-// import '../node_modules/tippy.js/dist/tippy.css'
+import 'tippy.js/dist/tippy.css'
 
 import './assets/js/ext/bootstrap.min.js'
 import './assets/js/ext/fontawesome.min.js'

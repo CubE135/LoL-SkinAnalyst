@@ -1,18 +1,19 @@
 import $ from 'jquery'
 import Shuffle from 'shufflejs'
+import Champion from '../models/Champion'
 
 export default class FilterUtility {
   shuffleInstance
 
   constructor() {
-    this.shuffleInstance = new Shuffle($('.filter-grid'), {
+    this.shuffleInstance = new Shuffle($('.filter-grid')[0], {
       itemSelector: '.filter-grid-item',
       filterMode: Shuffle.FilterMode.ALL
     })
     this.shuffleInstance.filter(Shuffle.ALL_ITEMS)
   }
 
-  static hasSkins(champion) {
+  static hasSkins(champion: Champion) {
     let result = false
     champion.skins.forEach((skin) => {
       if (skin.owned) result = true
@@ -20,7 +21,7 @@ export default class FilterUtility {
     return result
   }
 
-  static getGroups(champion) {
+  static getGroups(champion: Champion) {
     let groups = []
 
     /** Champion owned */
@@ -53,14 +54,11 @@ export default class FilterUtility {
     return JSON.stringify(groups)
   }
 
-  filter(filters, search = false) {
-    let activeFilters = []
-    filters = Object.entries(filters)
-    filters.forEach((filter) => {
-      if (filter[1]) {
-        activeFilters.push(filter[0])
-      }
-    })
+  filter(filters: FiltersType, search = false) {
+    const activeFilters = Object.entries(filters)
+      .filter(([key, value]) => value === true)
+      .map(([key]) => key)
+
     this.shuffleInstance.filter(function (element, _) {
       let groups = $(element).data('groups')
       let hasGroups = activeFilters.every((filter) => groups.includes(filter))

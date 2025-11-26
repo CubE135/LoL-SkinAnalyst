@@ -49,25 +49,20 @@ export default class ApiClient {
     return this.call('/lol-statstones/v2/player-summary-self')
   }
 
-  fetchChampionImages(championData: ChampionType[]): Promise<string[]> {
-    let championIds: number[] = []
-    championData.forEach((champion) => {
-      if (champion.id > 0 && champion.active) {
-        championIds.push(champion.id)
-      }
-    })
-    return this.fetchImages(championIds)
-  }
+  async fetchChampionImages(
+    championData: ChampionType[]
+  ): Promise<Record<number, string>> {
+    const validChampions = championData.filter(
+      (champ) => champ.id > 0 && champ.active
+    )
 
-  async fetchImages(championIds: number[]) {
-    let promises: Promise<string>[] = []
-    championIds.forEach((championId) => {
-      promises.push(this.fetchImageData(championId))
-    })
-    return Promise.all(promises)
-  }
+    const entries = await Promise.all(
+      validChampions.map(async (champ) => {
+        const url = await getChampionIconUrlFromId(champ.id)
+        return [champ.id, url] as const
+      })
+    )
 
-  async fetchImageData(championId: number) {
-    return await getChampionIconUrlFromId(championId)
+    return Object.fromEntries(entries)
   }
 }

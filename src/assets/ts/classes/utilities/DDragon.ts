@@ -55,3 +55,24 @@ export async function getChampionIconUrlFromId(
 
   return `https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${champion.id}.png`
 }
+
+/**
+ * Get the Data Dragon champion skin splash URL from a numeric champion ID
+ * @param championId - numeric champion ID (from LCU or API)
+ */
+export async function getChampionSkinSplashUrlFromId(
+  championId: number,
+  skinNum: number
+): Promise<string> {
+  const version = await getLatestDDragonVersion()
+  const mapping = await getChampionMapping(version)
+
+  // Find the champion by numeric ID
+  const champion = Object.values(mapping).find(
+    (c) => Number(c.key) === championId
+  )
+
+  if (!champion) throw new Error(`Champion with ID ${championId} not found`)
+
+  return `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion.id}_${skinNum}.jpg`
+}

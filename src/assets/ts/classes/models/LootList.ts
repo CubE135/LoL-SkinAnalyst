@@ -1,7 +1,7 @@
 import SkinShard from './SkinShard'
 
 export default class LootList {
-  loot: { skinShards: SkinShard[] }
+  loot: LootListType
 
   constructor(lootData: LootType[]) {
     this.loot = { skinShards: [] }

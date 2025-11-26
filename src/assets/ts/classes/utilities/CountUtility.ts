@@ -1,16 +1,20 @@
+import Champion from '../models/Champion'
+import Skin from '../models/Skin'
+import SkinShard from '../models/SkinShard'
+
 export default class CountUtility {
-  skinList
-  championList
-  skinShardList
+  skinList: Skin[]
+  championList: Champion[]
+  skinShardList: SkinShard[]
 
-  skinsOwnedCount
-  skinsNotOwnedCount
-  championOwnedCount
-  championNotOwnedCount
-  skinShardCount
-  skinShardLegendaryCount
+  skinsOwnedCount: number
+  skinsNotOwnedCount: number
+  championOwnedCount: number
+  championNotOwnedCount: number
+  skinShardCount: number
+  skinShardLegendaryCount: number
 
-  constructor(championList, lootList) {
+  constructor(championList: Champion[], lootList: LootListType) {
     this.skinList = []
     this.championList = []
     this.skinShardList = []
@@ -28,14 +32,14 @@ export default class CountUtility {
     this.countSkinShards()
   }
 
-  splitChampionList(championList) {
+  splitChampionList(championList: Champion[]) {
     championList.forEach((champion) => {
       this.skinList = this.skinList.concat(champion.skins)
       this.championList = this.championList.concat(champion)
     })
   }
 
-  splitLootList(lootList) {
+  splitLootList(lootList: LootListType) {
     this.skinShardList = lootList.skinShards
   }
 

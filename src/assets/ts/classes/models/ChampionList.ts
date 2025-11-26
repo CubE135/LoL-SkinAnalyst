@@ -7,7 +7,7 @@ export default class ChampionList {
 
   constructor(
     championsData: ChampionType[],
-    imageData: string[],
+    imageData: Record<number, string>,
     storeCatalog: StoreCatalogType[],
     statStones: StatStoneType[]
   ) {
@@ -26,7 +26,12 @@ export default class ChampionList {
           (e) => e.championId === championData.id
         )
         this.champions.push(
-          new Champion(championData, imageData[key - 1], storeItems, statStone)
+          new Champion(
+            championData,
+            imageData[championData.id],
+            storeItems,
+            statStone
+          )
         )
       }
     })

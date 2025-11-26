@@ -1,16 +1,27 @@
 import $ from 'jquery'
 import FilterUtility from '../utilities/FilterUtility'
 import tippy from 'tippy.js'
+import * as bootstrap from 'bootstrap'
+import Champion from '../models/Champion'
+import CountUtility from './CountUtility'
+import ApiClient from '../clients/ApiClient'
+import Skin from '../models/Skin'
+import SkinShard from '../models/SkinShard'
+import { getChampionSkinSplashUrlFromId } from './DDragon'
 
 export default class DOMUtility {
-  championList
-  counter
-  lcuClient
+  championList: Champion[]
+  counter: CountUtility
+  lcuClient: ApiClient
 
-  filters
-  modal
+  filters: FiltersType
+  modal: BootstrapModalType
 
-  constructor(championList, counter, lcuClient) {
+  constructor(
+    championList: Champion[],
+    counter: CountUtility,
+    lcuClient: ApiClient
+  ) {
     this.championList = championList
     this.counter = counter
     this.lcuClient = lcuClient
@@ -29,24 +40,24 @@ export default class DOMUtility {
 
   renderCounts() {
     $('#skins_owned_stat .stat_content .big_number').html(
-      this.counter.skinsOwnedCount
+      this.counter.skinsOwnedCount.toString()
     )
     $('#skins_owned_stat .stat_content span span').html(
-      this.counter.skinsNotOwnedCount
+      this.counter.skinsNotOwnedCount.toString()
     )
 
     $('#skin_shards_owned_stat .stat_content .big_number').html(
-      this.counter.skinShardCount
+      this.counter.skinShardCount.toString()
     )
     $('#skin_shards_owned_stat .stat_content span span').html(
-      this.counter.skinShardLegendaryCount
+      this.counter.skinShardLegendaryCount.toString()
     )
 
     $('#champs_owned_stat .stat_content .big_number').html(
-      this.counter.championOwnedCount
+      this.counter.championOwnedCount.toString()
     )
     $('#champs_owned_stat .stat_content span span').html(
-      this.counter.championNotOwnedCount
+      this.counter.championNotOwnedCount.toString()
     )
   }
 
@@ -76,8 +87,8 @@ export default class DOMUtility {
     })
   }
 
-  handleTooltips(classes) {
-    tippy.default(classes, {
+  handleTooltips(classes: string) {
+    tippy(classes, {
       theme: 'custom',
       content: (reference) => reference.getAttribute('data-title')
     })
@@ -87,8 +98,9 @@ export default class DOMUtility {
     let filterUtility = new FilterUtility()
     let _this = this
     $(document).on('click', '.filter_container span[id^="filter_"]', (e) => {
-      _this.filters[e.target.id] = !_this.filters[e.target.id]
-      _this.setFilterElementStatus(e.target.id, _this.filters[e.target.id])
+      const targetId = e.target.id as FilterKeyType
+      _this.filters[targetId] = !_this.filters[targetId]
+      _this.setFilterElementStatus(targetId, _this.filters[targetId])
       filterUtility.filter(this.filters)
     })
     $(document).on('click', '.filter_container .fa-search', (e) => {
@@ -107,7 +119,7 @@ export default class DOMUtility {
     })
   }
 
-  setFilterElementStatus(id, status) {
+  setFilterElementStatus(id: FilterKeyType, status: boolean) {
     let element = $('#' + id)
     if (status) {
       element.addClass('active')
@@ -117,19 +129,20 @@ export default class DOMUtility {
   }
 
   initModal() {
+    const modalElement = document.getElementById('modal')!
     let modal = new bootstrap.Modal(document.getElementById('modal'), {
       backdrop: true
     })
     this.modal = {
       object: modal,
-      element: $(modal._element),
-      title: $(modal._element).find('.modal-title'),
-      body: $(modal._element).find('.modal-body'),
-      body_row: $(modal._element).find('.modal-body .row')
+      element: $(modalElement),
+      title: $(modalElement).find('.modal-title'),
+      body: $(modalElement).find('.modal-body'),
+      body_row: $(modalElement).find('.modal-body .row')
     }
   }
 
-  openModal(type, champion) {
+  openModal(type: string, champion: Champion) {
     this.modal.body_row.empty()
     if (type === 'showOwnedSkins') {
       this.renderImageTiles(champion, champion.getSkins(true))
@@ -144,11 +157,8 @@ export default class DOMUtility {
     this.modal.object.show()
   }
 
-  renderImageTiles(champion, skins) {
-    let images = skins.map((skin) => {
-      return skin.img
-    })
-    if (images.length === 0) {
+  async renderImageTiles(champion: Champion, skins: Skin[] | SkinShard[]) {
+    if (skins.length === 0) {
       this.modal.body_row.append(`
                 <div class="col-12 text-center">
                     Nothing found..
@@ -156,74 +166,84 @@ export default class DOMUtility {
             `)
       return
     }
-    this.lcuClient.fetchImages(images).then((imagesData) => {
-      skins.forEach((skin, key) => {
-        let priceData = this.calcSkinPrice(skin)
-        skin.imgData = champion.transformToBase64(imagesData[key])
-        this.modal.body_row.append(
-          `
-                    <div class="col-3 skinImageTile" data-title="` +
-            skin.name +
-            `">
-                        <img src="` +
-            skin.imgData +
-            `" alt="` +
-            skin.name +
-            ` Image" draggable="false"/>
-                        <span class="price">` +
-            priceData.price +
-            `</span>
-                        ` +
-            (priceData.discount
-              ? '<span class="discount">' + priceData.discount + '</span>'
-              : '') +
-            `
-                    </div>
-                `
-        )
-      })
-      this.handleTooltips('.skinImageTile')
+
+    const skinSplashArtUrls: string[] = []
+    for (const skin of skins) {
+      const skinId = Number(
+        skin.id.toString().replace(champion.id.toString(), '')
+      )
+
+      const splashArtUrl = await getChampionSkinSplashUrlFromId(
+        champion.id,
+        skinId
+      )
+      skinSplashArtUrls[skin.id] = splashArtUrl
+    }
+
+    skins.forEach((skin, key) => {
+      let priceData = this.calcSkinPrice(skin)
+
+      const discountHtml = priceData.discount
+        ? `<span class="discount">-${100 - priceData.discount} %</span>`
+        : ''
+
+      const priceHtml = `<span class="price">
+      ${priceData.price >= 0 ? priceData.price : 'n/a'}
+      <img src="${priceData.icon}" style="width:16px;">
+      </span>`
+
+      const skinTileHtml = `
+      <div class="col-3 skinImageTile" data-title="${skin.name}">
+      <img src="${skinSplashArtUrls[skin.id]}" alt="${skin.name} Image" draggable="false" />
+      ${priceHtml}
+      ${discountHtml}
+      </div>
+      `
+
+      this.modal.body_row.append(skinTileHtml)
     })
+    this.handleTooltips('.skinImageTile')
   }
 
-  calcSkinPrice(skin) {
-    let price, discount, currency, icon
-    if (skin.constructor.name === 'Skin') {
-      price = skin?.storeItem?.sale?.prices[0]?.cost
+  calcSkinPrice(skin: SkinShard | Skin) {
+    let price: number
+    let isDiscount: boolean
+    let discount: number
+    let currency: string
+    let icon: string
+    if (skin instanceof Skin) {
+      price = skin.storeItem?.sale?.prices[0]?.cost
       discount = null
       if (price) {
+        currency = skin.storeItem?.sale?.prices[0].currency
         discount =
-          100 - Math.round(skin.storeItem.sale.prices[0].discount * 100) + ' %'
-        price += ' ' + skin.storeItem.sale.prices[0].currency
+          100 - Math.round(skin.storeItem?.sale?.prices[0].discount * 100)
       } else {
-        price = skin?.storeItem?.prices[0]?.cost
+        price = skin.storeItem?.prices[0]?.cost
         if (price) {
-          currency = skin.storeItem.prices[0].currency
+          currency = skin.storeItem?.prices[0].currency
         } else {
-          price = '-'
+          price = -1
         }
       }
-    } else if (skin.constructor.name === 'SkinShard') {
+    } else if (skin instanceof SkinShard) {
       currency = 'OE'
       price = skin.upgradeEssenceValue
-      discount = false
+      isDiscount = false
     } else {
-      price = '-'
-      discount = false
+      price = -1
+      isDiscount = false
     }
     if (currency === 'RP') {
-      icon = 'rp.png'
+      icon =
+        'https://wiki.leagueoflegends.com/en-us/images/thumb/RP_icon.png/20px-RP_icon.png'
     } else if (currency === 'OE') {
-      icon = 'oe.png'
+      icon =
+        'https://wiki.leagueoflegends.com/en-us/images/thumb/OE_icon.png/20px-OE_icon.png'
     } else {
-      icon = 'be.png'
+      icon =
+        'https://wiki.leagueoflegends.com/en-us/images/thumb/BE_icon.png/20px-BE_icon.png'
     }
-    price +=
-      ' <img src="file://' +
-      __dirname +
-      '../../../../img/currencies/' +
-      icon +
-      '" style="width: 16px;">'
-    return { price, discount }
+    return { price, discount, currency, icon }
   }
 }

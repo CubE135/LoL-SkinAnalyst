@@ -1,4 +1,14 @@
+import type { ElectronAPI, ApiClient } from './ipc'
+
 declare global {
+  declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string | undefined
+  declare const MAIN_WINDOW_VITE_NAME: string
+
+  interface Window {
+    electronAPI: ElectronAPI
+    apiClient: ApiClient
+  }
+
   type CurrentSummonerType = {
     accountId: number
     displayName: string
@@ -115,6 +125,8 @@ declare global {
     value: number
   }
 
+  type LootListType = { skinShards: SkinShard[] }
+
   type StoreCatalogType = {
     active: boolean
     bundled: null
@@ -134,11 +146,23 @@ declare global {
     maxQuantity: number
     metadata: null
     offerId: string
-    prices: []
+    prices: StoreItemPriceType[]
     releaseDate: string
-    sale: null
+    sale: StoreItemSaleType | null
     subInventoryType: null
-    tags: null
+    tags: string[]
+  }
+
+  type StoreItemPriceType = {
+    cost: number
+    currency: string
+    discount: number
+  }
+
+  type StoreItemSaleType = {
+    endDate: string
+    prices: StoreItemPriceType[]
+    startDate: string
   }
 
   type StatStoneType = {
@@ -154,6 +178,26 @@ declare global {
     stonesAvailable: number
     stonesIlluminated: number
     stonesOwned: number
+  }
+
+  type FiltersType = {
+    filter_owned: boolean
+    filter_unowned: boolean
+    filter_skins_owned: boolean
+    filter_skins_unowned: boolean
+    filter_shards: boolean
+    filter_sale: boolean
+    filter_eternals_unowned: boolean
+  }
+
+  type FilterKeyType = keyof FiltersType
+
+  type BootstrapModalType = {
+    object: bootstrap.Modal
+    element: JQuery<HTMLElement>
+    title: JQuery<HTMLElement>
+    body: JQuery<HTMLElement>
+    body_row: JQuery<HTMLElement>
   }
 }
 
