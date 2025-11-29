@@ -6,15 +6,20 @@ import { MakerRpm } from '@electron-forge/maker-rpm'
 import { VitePlugin } from '@electron-forge/plugin-vite'
 import { FusesPlugin } from '@electron-forge/plugin-fuses'
 import { FuseV1Options, FuseVersion } from '@electron/fuses'
+import path from 'node:path'
 
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
-    icon: '/src/img/icon'
+    icon: path.resolve(__dirname, 'build', 'icon')
   },
   rebuildConfig: {},
   makers: [
-    new MakerSquirrel({}),
+    new MakerSquirrel({
+      setupIcon: path.resolve(__dirname, 'build', 'icon.ico'),
+      iconUrl: path.resolve(__dirname, 'build', 'icon.ico'),
+      noMsi: true
+    }),
     new MakerZIP({}, ['darwin']),
     new MakerRpm({}),
     new MakerDeb({})

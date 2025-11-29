@@ -1,5 +1,6 @@
 export interface ElectronAPI {
   doExec(command: string): Promise<string>
+  minimize(): void
 }
 
 export interface ApiClient {

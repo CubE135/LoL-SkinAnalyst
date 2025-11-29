@@ -14,17 +14,20 @@ if (started) {
   app.quit()
 }
 
+// Set the App User Model ID
+app.setAppUserModelId('com.squirrel.LoLSkinAnalyst.LoLSkinAnalyst')
+
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 850,
     height: 650,
-    icon: __dirname + '/assets/img/icon.ico',
+    icon: path.join(__dirname, '/assets/img/icon.ico'),
     frame: false,
     resizable: false,
     transparent: true,
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: false,
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js')
     }
@@ -45,7 +48,7 @@ const createWindow = () => {
 
   // Open the DevTools.
   // const runDevTools = app.commandLine.hasSwitch('console')
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished

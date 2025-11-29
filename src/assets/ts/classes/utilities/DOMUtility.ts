@@ -82,8 +82,7 @@ export default class DOMUtility {
       window.close()
     })
     $(document).on('click', '.minimize', () => {
-      const electron = window.require('electron')
-      electron.ipcRenderer.send('minimize')
+      window.electronAPI.minimize()
     })
   }
 
