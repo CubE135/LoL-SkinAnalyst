@@ -1,7 +1,7 @@
 {
   "name": "lolskinanalyst",
   "productName": "LoLSkinAnalyst",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "This App will give you detailed Information about your League Of Legends Skin Inventory.",
   "main": ".vite/build/main.js",
   "scripts": {

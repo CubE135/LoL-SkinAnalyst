@@ -1,5 +1,8 @@
 import { getChampionIconUrlFromId } from '../../classes/utilities/DDragon'
 
+// League Classic ("Jade") variants reuse the real champion's id + this offset (e.g. Annie 1 -> 60001)
+export const JADE_CHAMPION_ID_OFFSET = 60000
+
 export default class ApiClient {
   baseUrl: string
   authToken: string
@@ -53,7 +56,7 @@ export default class ApiClient {
     championData: ChampionType[]
   ): Promise<Record<number, string>> {
     const validChampions = championData.filter(
-      (champ) => champ.id > 0 && champ.active
+      (champ) => champ.id > 0 && champ.id < JADE_CHAMPION_ID_OFFSET
     )
 
     const entries = await Promise.all(

@@ -79,16 +79,23 @@ app.on('activate', () => {
 /**
  * Add doExec Methods
  */
-function doExec(command: string, callback: (returnValue: string) => void) {
-  exec(command, (error, stdout, stderr) => {
-    callback(stdout)
+function doExec(
+  command: string,
+  callback: (error: Error | null, returnValue: string) => void
+) {
+  exec(command, (error, stdout) => {
+    callback(error, stdout)
   })
 }
 
 ipcMain.handle('doExec', async (event, command: string) => {
-  return new Promise((resolve) => {
-    doExec(command, (output) => {
-      resolve(output)
+  return new Promise<string>((resolve, reject) => {
+    doExec(command, (error, output) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(output)
+      }
     })
   })
 })

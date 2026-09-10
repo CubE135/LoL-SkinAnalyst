@@ -1,4 +1,5 @@
 import { getChampionIconUrlFromId } from '../utilities/DDragon'
+import { JADE_CHAMPION_ID_OFFSET } from '../clients/ApiClient'
 import Champion from './Champion'
 import SkinShard from './SkinShard'
 
@@ -12,7 +13,7 @@ export default class ChampionList {
     statStones: StatStoneType[]
   ) {
     championsData.forEach(async (championData, key) => {
-      if (championData.id > 0 && championData.active) {
+      if (championData.id > 0 && championData.id < JADE_CHAMPION_ID_OFFSET) {
         const storeItems: StoreCatalogType[] = []
         championData.skins.forEach((skin) => {
           const storeItem = storeCatalog.find((item) => {

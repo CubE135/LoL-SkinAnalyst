@@ -2,9 +2,14 @@ export default class CmdClient {
   async getLCUPortAndPassword(
     callback: (port: number, password: string) => void
   ) {
-    const result: string = await window.electronAPI.doExec(
-      `wmic PROCESS WHERE "name='LeagueClientUx.exe'" GET commandline`
-    )
+    let result = ''
+    try {
+      result = await window.electronAPI.doExec(
+        `powershell -NoProfile -Command "Get-CimInstance Win32_Process -Filter \\"Name='LeagueClientUx.exe'\\" | Select-Object -ExpandProperty CommandLine"`
+      )
+    } catch (error) {
+      console.error('Failed to look up LeagueClientUx.exe:', error)
+    }
     callback(this.extractPort(result), this.extractPassword(result))
   }
 
